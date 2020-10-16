@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  api:
+    build: .
+    expose:
+      - 3000
+    environment:
+      DB_USERNAME: oldschool
+      DB_PASSWORD: oldschool
+      DB_DATABASE: oldschool
+      DB_HOST: db
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_PASSWORD: oldschool
+      POSTGRES_USER: oldschool
+      POSTGRES_DB: oldschool
+    volumes:
+    - postgres_data:/var/lib/postgresql/data
+    ports:
+    - "5432:5432"
+
+volumes:
+  postgres_data:
