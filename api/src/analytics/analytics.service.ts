@@ -16,6 +16,10 @@ export class AnalyticsService {
 
   async savePageView(url: string) {
     await this.client.incr(pageKey(url))
-    this.logger.log(`Page with url "${url}" => view = ${await this.client.get(pageKey(url))}`);
+    this.logger.log(`Page with url "${url}" => view = ${this.getPageWiew(url)}`);
+  }
+
+  async getPageWiew(url: string): Promise<string> {
+    return await this.client.get(pageKey(url))
   }
 }
