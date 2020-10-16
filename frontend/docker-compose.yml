@@ -2,6 +2,9 @@ version: "3.8"
 
 services:
   frontend:
-    build: .
+    build: frontend
     expose:
       - 80
+    labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.oldschool.rule=Host(`oldschool.localhost`)"

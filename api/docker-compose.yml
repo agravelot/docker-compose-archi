@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   api:
-    build: .
+    build: api
     expose:
       - 3000
     environment:
@@ -10,6 +10,20 @@ services:
       DB_PASSWORD: oldschool
       DB_DATABASE: oldschool
       DB_HOST: db
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_DB: 0
+      REDIS_PRIFIX:
+      REDIS_PASSWORD:
+    networks:
+    - traefik-net
+    - backend
+    labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.api-oldschool.rule=Host(`api.oldschool.localhost`)"
+    depends_on:
+    - db
+    - redis
 
   db:
     image: postgres:13
@@ -21,6 +35,8 @@ services:
     - postgres_data:/var/lib/postgresql/data
     ports:
     - "5432:5432"
+    networks:
+      - backend
   
   redis:
     image: redis
@@ -28,7 +44,14 @@ services:
     - "6379:6379"
     volumes:
     - "redis_data:/data" # Pas besoin d'ajouter d'argument à la command
+    networks:
+    - backend
 
 volumes:
   postgres_data:
   redis_data:
+
+networks:
+  backend:
+  traefik-net:
+    external: true 
