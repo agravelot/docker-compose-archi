@@ -13,3 +13,5 @@ Dashboard gateway : http://localhost:8080
 
 Grafana : http://grafana.localhost
 Prometheus : http://prometheus.localhost
+
+credentials : admin / admin
